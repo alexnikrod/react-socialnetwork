@@ -2,8 +2,7 @@ import React from "react";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 
-const Profile = props => {
-  debugger;
+const Profile = () => {
   return (
     <div>
       <div>Main Content</div>

@@ -3,13 +3,16 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import { Provider } from "./StoreContext";
+import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 
 let renderEntireTree = () => {
   ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
+    <BrowserRouter>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>,
     document.getElementById("root")
   );
 };
