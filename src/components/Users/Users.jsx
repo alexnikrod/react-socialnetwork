@@ -1,8 +1,10 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
+
 import styles from "./Users.module.scss";
 import userPhoto from "../../assets/images/bill.jpg";
 
-let Users = (props) => {
+let Users = props => {
   let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
 
   let pages = [];
@@ -12,35 +14,35 @@ let Users = (props) => {
   }
 
   let pagesToDraw = pages.filter(
-    page =>
-      page < props.currentPage + 5 && page > props.currentPage - 5
+    page => page < props.currentPage + 5 && page > props.currentPage - 5
   );
 
   return (
     <div>
       <div>
-        {pagesToDraw.map(p => {
-          return (
-            <span
-              className={props.currentPage === p && styles.selectedPage}
-              onClick={() => {
-                props.onPageChanged(p);
-              }}
-            >
-              {p}
-            </span>
-          );
-        })}
+        {pagesToDraw.map(p => (
+          <span
+            key={p.id}
+            className={props.currentPage === p ? styles.selectedPage : null}
+            onClick={() => {
+              props.onPageChanged(p);
+            }}
+          >
+            {p}
+          </span>
+        ))}
       </div>
       {props.users.map(u => (
         <div key={u.id}>
           <span>
             <div>
-              <img
-                src={u.photos.small != null ? u.photos.small : userPhoto}
-                alt="User"
-                className={styles.usersPhoto}
-              />
+              <NavLink to={"/profile/" + u.id}>
+                <img
+                  src={u.photos.small != null ? u.photos.small : userPhoto}
+                  alt="User"
+                  className={styles.usersPhoto}
+                />
+              </NavLink>
             </div>
             <div>
               {u.followed ? (
