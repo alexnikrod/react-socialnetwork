@@ -4,13 +4,15 @@ const SET_USERS = "SET_USERS";
 const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 const SET_TOTAL_USERS_COUNT = "SET_TOTAL_USERS_COUNT";
 const TOGGLE_IS_FETCHING = "TOGGLE_IS_FETCHING";
+const TOGGLE_IS_DISABLED = "TOGGLE_IS_DISABLED";
 
 let initialState = {
   users: [],
   pageSize: 5,
   totalUsersCount: 0,
   currentPage: 1,
-  isFetching: false
+  isFetching: false,
+  isDisabled: []
 };
 
 const usersReducer = (state = initialState, action) => {
@@ -55,6 +57,13 @@ const usersReducer = (state = initialState, action) => {
         ...state,
         isFetching: action.isFetching
       };
+    case TOGGLE_IS_DISABLED:
+      return {
+        ...state,
+        isDisabled: action.isDisabled
+          ? [...state.isDisabled, action.userId]
+          : state.isDisabled.filter(id => id !== action.userId) //????
+      };
     default:
       return state;
   }
@@ -88,6 +97,13 @@ export const setTotalUsersCount = totalUsersCount => ({
 export const toggleIsFetching = isFetching => ({
   type: TOGGLE_IS_FETCHING,
   isFetching
+});
+// button follow or or unfollow is disabled
+// to prevent queries on server
+export const toggleIsDisabled = (isDisabled, userId) => ({
+  type: TOGGLE_IS_DISABLED,
+  isDisabled,
+  userId
 });
 
 export default usersReducer;

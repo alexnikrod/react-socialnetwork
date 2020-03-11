@@ -1,6 +1,7 @@
 import React from "react";
 import s from "./ProfileInfo.module.scss";
 import Preloader from "../../common/Preloader/Preloader";
+import userPhoto from "../../../assets/images/bill.jpg";
 
 const ProfileInfo = props => {
   if (!props.profile) {
@@ -17,11 +18,11 @@ const ProfileInfo = props => {
         />
       </div>
       <div className={s.descriptionBlock}>
-        <img src={props.profile.photos.large} alt="large" />
+        <img src={props.profile.photos.large != null ? props.profile.photos.large : userPhoto} alt="large" />
       </div>
       <div>Ava+description</div>
-      <div>{props.profile.aboutMe}</div>
-      <div>{props.profile.contacts.github}</div>
+      <div>{props.profile.fullName}</div>
+      <div>{props.profile.status}</div>
     </div>
   );
 };
