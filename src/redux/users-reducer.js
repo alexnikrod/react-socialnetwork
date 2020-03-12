@@ -1,3 +1,5 @@
+import { usersAPI } from "../api/api";
+
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
@@ -105,5 +107,41 @@ export const toggleIsDisabled = (isDisabled, userId) => ({
   isDisabled,
   userId
 });
+// thunk
+export const getUsers = (currentPage, pageSize) => {
+  return dispatch => {
+    dispatch(toggleIsFetching(true));
+    dispatch(setCurrentPage(currentPage));
+    usersAPI.getUsers(currentPage, pageSize).then(data => {
+      dispatch(toggleIsFetching(false));
+      dispatch(setUsers(data.items));
+      dispatch(setTotalUsersCount(data.totalCount));
+    });
+  };
+};
+
+export const unfollowThunk = userId => {
+  return dispatch => {
+    dispatch(toggleIsDisabled(true, userId));
+    usersAPI.unfollowUsers(userId).then(data => {
+      if (data.resultCode === 0) {
+        dispatch(unfollow(userId));
+      }
+      dispatch(toggleIsDisabled(false, userId));
+    });
+  };
+};
+
+export const followThunk = userId => {
+  return dispatch => {
+    dispatch(toggleIsDisabled(true, userId));
+    usersAPI.followUsers(userId).then(data => {
+      if (data.resultCode === 0) {
+        dispatch(follow(userId));
+      }
+      dispatch(toggleIsDisabled(false, userId));
+    });
+  };
+};
 
 export default usersReducer;

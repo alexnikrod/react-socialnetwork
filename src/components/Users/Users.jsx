@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 
 import styles from "./Users.module.scss";
 import userPhoto from "../../assets/images/bill.jpg";
-import { usersAPI } from "../../api/api";
 
 let Users = props => {
   let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
@@ -50,13 +49,7 @@ let Users = props => {
                 <button
                   disabled={props.isDisabled.some(id => id === u.id)}
                   onClick={() => {
-                    props.toggleIsDisabled(true, u.id);
-                    usersAPI.unfollowUsers(u.id).then(data => {
-                      if (data.resultCode === 0) {
-                        props.unfollow(u.id);
-                      }
-                      props.toggleIsDisabled(false, u.id);
-                    });
+                    props.unfollowThunk(u.id);
                   }}
                 >
                   Unfollow
@@ -65,13 +58,7 @@ let Users = props => {
                 <button
                   disabled={props.isDisabled.some(id => id === u.id)}
                   onClick={() => {
-                    props.toggleIsDisabled(true, u.id);
-                    usersAPI.followUsers(u.id).then(data => {
-                      if (data.resultCode === 0) {
-                        props.follow(u.id);
-                      }
-                      props.toggleIsDisabled(false, u.id);
-                    });
+                    props.followThunk(u.id);
                   }}
                 >
                   Follow
