@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 import styles from "./Users.module.scss";
 import userPhoto from "../../assets/images/bill.jpg";
@@ -16,6 +17,10 @@ let Users = props => {
   let pagesToDraw = pages.filter(
     page => page < props.currentPage + 5 && page > props.currentPage - 5
   );
+
+  if (props.isAuth === false) {
+    return <Redirect to={"/login"} />;
+  }
 
   return (
     <div>

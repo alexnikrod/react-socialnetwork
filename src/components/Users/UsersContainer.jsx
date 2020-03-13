@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import {
   followThunk,
@@ -20,6 +21,10 @@ class UsersContainer extends React.Component {
   };
 
   render() {
+    if (!this.props.isAuth) {
+      return <Redirect to={"/login"} />;
+    }
+
     return (
       <>
         {this.props.isFetching ? <Preloader /> : null}
@@ -46,7 +51,8 @@ let mapStateToProps = state => {
     totalUsersCount: state.usersPage.totalUsersCount,
     currentPage: state.usersPage.currentPage,
     isFetching: state.usersPage.isFetching,
-    isDisabled: state.usersPage.isDisabled
+    isDisabled: state.usersPage.isDisabled,
+    isAuth: state.auth.isAuth
   };
 };
 

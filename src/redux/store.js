@@ -30,7 +30,6 @@ let store = {
     console.log("q");
   },
   getState() {
-    debugger;
     return this._state;
   },
   subscribe(observer) {

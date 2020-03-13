@@ -45,3 +45,13 @@ export const usersAPI = {
       });
   },
 };
+
+export const authAPI = {
+  getAuthData() {
+    return instance
+      .get(`auth/me`)
+      .then(response => {
+        return response.data;
+      });
+  },
+}

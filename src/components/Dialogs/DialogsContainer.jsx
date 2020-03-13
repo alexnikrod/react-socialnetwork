@@ -7,7 +7,7 @@ import {
 
 import Dialogs from "./Dialogs";
 
-let mapStateToProps = state => ({ dialogsPage: state.dialogsPage });
+let mapStateToProps = state => ({ dialogsPage: state.dialogsPage, isAuth: state.auth.isAuth });
 
 let mapDispatchToProps = dispatch => {
   return {

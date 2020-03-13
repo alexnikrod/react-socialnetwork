@@ -56,6 +56,7 @@ export const setUserProfile = profile => ({
 });
 
 // thunk
+// getUserProfile
 export const setUserProfileThunk = (userId) => {
   return dispatch => {
     usersAPI.getUserProfile(userId).then(data => {
