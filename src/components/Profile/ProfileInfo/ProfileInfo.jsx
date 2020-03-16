@@ -29,7 +29,7 @@ const ProfileInfo = props => {
           }
           alt="large"
         />
-        <ProfileStatus />
+        <ProfileStatus status={"Hello dear friend"} />
       </div>
       <div>Ava+description</div>
       <div>{props.profile.fullName}</div>
