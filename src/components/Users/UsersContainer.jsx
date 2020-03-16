@@ -1,12 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 
 import {
   followThunk,
   unfollowThunk,
   getUsers
 } from "../../redux/users-reducer";
+
+import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
@@ -21,10 +22,6 @@ class UsersContainer extends React.Component {
   };
 
   render() {
-    if (!this.props.isAuth) {
-      return <Redirect to={"/login"} />;
-    }
-
     return (
       <>
         {this.props.isFetching ? <Preloader /> : null}
@@ -56,8 +53,10 @@ let mapStateToProps = state => {
   };
 };
 
+let AuthRedirectComponent = withAuthRedirect(UsersContainer);
+
 export default connect(mapStateToProps, {
   followThunk,
   unfollowThunk,
   getUsers
-})(UsersContainer);
+})(AuthRedirectComponent);
