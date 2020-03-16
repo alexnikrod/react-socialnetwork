@@ -16,7 +16,7 @@ class ProfileStatus extends React.Component {
       editMode: false
     })
   }
-
+// input status
   render() {
     return (
       <div>

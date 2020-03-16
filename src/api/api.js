@@ -17,41 +17,47 @@ export const usersAPI = {
       });
   },
   unfollowUsers(id) {
-    return instance
-      .delete(`follow/${id}`)
-      .then(response => {
-        return response.data;
-      });
+    return instance.delete(`follow/${id}`).then(response => {
+      return response.data;
+    });
   },
   followUsers(id) {
-    return instance
-      .post(`follow/${id}`, {})
-      .then(response => {
-        return response.data;
-      });
+    return instance.post(`follow/${id}`, {}).then(response => {
+      return response.data;
+    });
   },
   getAuthData() {
-    return instance
-      .get(`auth/me`)
-      .then(response => {
-        return response.data;
-      });
+    return instance.get(`auth/me`).then(response => {
+      return response.data;
+    });
   },
   getUserProfile(userId) {
-    return instance
-      .get(`profile/${userId}`)
-      .then(response => {
-        return response.data;
-      });
+    return profileAPI.getUserProfile(userId);
+  }
+};
+
+export const profileAPI = {
+  getUserProfile(userId) {
+    return instance.get(`profile/${userId}`).then(response => {
+      return response.data;
+    });
   },
+  getUserStatus(userId) {
+    return instance.get(`profile/status/${userId}`).then(response => {
+      return response.data;
+    });
+  },
+  updateUserStatus(status) {
+    return instance.put(`profile/status`, { status }).then(response => {
+      return response.data;
+    });
+  }
 };
 
 export const authAPI = {
   getAuthData() {
-    return instance
-      .get(`auth/me`)
-      .then(response => {
-        return response.data;
-      });
-  },
-}
+    return instance.get(`auth/me`).then(response => {
+      return response.data;
+    });
+  }
+};
