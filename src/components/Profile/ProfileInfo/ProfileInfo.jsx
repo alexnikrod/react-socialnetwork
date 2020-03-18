@@ -29,7 +29,7 @@ const ProfileInfo = props => {
           }
           alt="large"
         />
-        <ProfileStatus status={"Hello dear friend"} />
+        <ProfileStatus status={props.status} updateStatus={props.updateStatus} />
       </div>
       <div>Ava+description</div>
       <div>{props.profile.fullName}</div>
