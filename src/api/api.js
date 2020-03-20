@@ -60,9 +60,14 @@ export const authAPI = {
       return response.data;
     });
   },
-  loginAuthData() {
-    return instance.post(`auth/login`, {}).then(response => {
-      return response.data;
-    });
+  login(email, password, rememberMe = false) {
+    return instance
+      .post(`auth/login`, { email, password, rememberMe })
+      .then(response => {
+        return response.data;
+      });
+  },
+  logOut() {
+    return instance.delete(`auth/login`);
   }
 };

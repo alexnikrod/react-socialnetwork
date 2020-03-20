@@ -1,6 +1,7 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import { loginAuthThunk } from "../../redux/auth-reducer";
 import { Input } from "../common/FormControls/FormControls";
@@ -25,7 +26,7 @@ const LoginForm = props => {
           name={"password"}
           placeholder={"Password"}
           component={Input}
-          type="text"
+          type="password"
           validate={[required, maxLength30]}
         />
       </div>
@@ -44,10 +45,7 @@ const LoginReduxForm = reduxForm({
   form: "login"
 })(LoginForm);
 
-const onSubmit = formData => {
-  console.log(formData);
-  // loginAuthThunk(formData);
-};
+
 
 class LoginContainer extends React.Component {
   render() {
@@ -56,6 +54,15 @@ class LoginContainer extends React.Component {
 }
 
 const Login = props => {
+  const onSubmit = formData => {
+    // console.log(formData);
+    props.loginAuthThunk(formData.email, formData.password, formData.rememberMe);
+  };
+
+  if (props.isAuth) {
+    return <Redirect to={"/profile"} />
+  }
+
   return (
     <div>
       <h1>LOGIN</h1>
@@ -67,9 +74,7 @@ const Login = props => {
 // export default Login;
 
 let mapStateToProps = state => ({
-  email: state.auth.email,
-  password: state.auth.password,
-  rememberMe: state.auth.rememberMe
+  isAuth: state.auth.isAuth
 });
 
 export default connect(mapStateToProps, { loginAuthThunk })(LoginContainer);
