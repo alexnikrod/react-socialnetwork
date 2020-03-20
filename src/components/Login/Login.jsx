@@ -3,6 +3,10 @@ import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 
 import { loginAuthThunk } from "../../redux/auth-reducer";
+import { Input } from "../common/FormControls/FormControls";
+import { required, maxLengthCreator } from "../../utils/validators/validators";
+
+const maxLength30 = maxLengthCreator(30);
 
 const LoginForm = props => {
   return (
@@ -11,20 +15,22 @@ const LoginForm = props => {
         <Field
           name={"email"}
           placeholder={"email"}
-          component="input"
+          component={Input}
           type="email"
+          validate={[required, maxLength30]}
         />
       </div>
       <div>
         <Field
           name={"password"}
           placeholder={"Password"}
-          component="input"
+          component={Input}
           type="text"
+          validate={[required, maxLength30]}
         />
       </div>
       <div>
-        <Field name={"rememberMe"} type={"checkbox"} component="input" />{" "}
+        <Field name={"rememberMe"} type={"checkbox"} component={Input} />{" "}
         remember me
       </div>
       <div>
@@ -44,13 +50,12 @@ const onSubmit = formData => {
 };
 
 class LoginContainer extends React.Component {
- 
   render() {
     return <Login {...this.props} />;
   }
 }
 
-const Login = (props) => {
+const Login = props => {
   return (
     <div>
       <h1>LOGIN</h1>
