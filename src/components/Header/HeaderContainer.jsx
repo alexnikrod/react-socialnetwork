@@ -5,10 +5,6 @@ import Header from "./Header";
 import { authThunk, logOut } from "../../redux/auth-reducer";
 
 class HeaderContainer extends React.Component {
-  componentDidMount() {
-    this.props.authThunk();
-  }
-
   render() {
     return <Header {...this.props} />;
   }
