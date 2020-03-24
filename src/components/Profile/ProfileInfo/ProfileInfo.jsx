@@ -4,7 +4,7 @@ import s from "./ProfileInfo.module.scss";
 import Preloader from "../../common/Preloader/Preloader";
 import userPhoto from "../../../assets/images/bill.jpg";
 
-import ProfileStatus from "./ProfileStatus";
+import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
 const ProfileInfo = props => {
   if (!props.profile) {
@@ -13,15 +13,15 @@ const ProfileInfo = props => {
 
   return (
     <div>
-      <div>
+      {/* <div>
         <img
           className="content__img"
           alt="man"
           src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"
         />
-      </div>
+      </div> */}
       <div className={s.descriptionBlock}>
-        <img
+        <img className={s.userPhoto}
           src={
             props.profile.photos.large != null
               ? props.profile.photos.large
@@ -29,7 +29,7 @@ const ProfileInfo = props => {
           }
           alt="large"
         />
-        <ProfileStatus status={props.status} updateStatus={props.updateStatus} />
+        <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus} />
       </div>
       <div>Ava+description</div>
       <div>{props.profile.fullName}</div>
