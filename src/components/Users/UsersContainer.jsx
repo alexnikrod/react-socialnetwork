@@ -7,6 +7,15 @@ import {
   getUsers
 } from "../../redux/users-reducer";
 
+import {
+  getUsersSelector,
+  getPageSize,
+  getTotalUsersCount,
+  getcurrentPage,
+  getIsFetching,
+  getIsDisabled
+} from "../../redux/users-selectors";
+
 import { withAuthRedirect } from "../../hoc/withAuthRedirect";
 
 import Users from "./Users";
@@ -42,7 +51,7 @@ class UsersContainer extends React.Component {
   }
 }
 
-let mapStateToProps = state => {
+/* let mapStateToProps = state => {
   return {
     users: state.usersPage.users,
     pageSize: state.usersPage.pageSize,
@@ -50,7 +59,18 @@ let mapStateToProps = state => {
     currentPage: state.usersPage.currentPage,
     isFetching: state.usersPage.isFetching,
     isDisabled: state.usersPage.isDisabled,
-    isAuth: state.auth.isAuth
+    // isAuth: state.auth.isAuth
+  };
+}; */
+
+let mapStateToProps = state => {
+  return {
+    users: getUsersSelector(state),
+    pageSize: getPageSize(state),
+    totalUsersCount: getTotalUsersCount(state),
+    currentPage: getcurrentPage(state),
+    isFetching: getIsFetching(state),
+    isDisabled: getIsDisabled(state)
   };
 };
 
