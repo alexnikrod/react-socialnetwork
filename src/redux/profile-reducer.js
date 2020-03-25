@@ -3,7 +3,7 @@ import { usersAPI, profileAPI } from "../api/api";
 const ADD_POST = "ADD_POST";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_USER_STATUS = "SET_USER_STATUS";
-// const UPDATE_USER_STATUS = "UPDATE_USER_STATUS"
+const DELETE_POST = "DELETE_POST";
 
 let initialState = {
   posts: [
@@ -37,12 +37,17 @@ const profileReducer = (state = initialState, action) => {
         ...state,
         status: action.status
       };
+    case DELETE_POST:
+      return {
+        ...state,
+        posts: state.posts.filter(p => p.id !== action.postId)
+      };
     default:
       return state;
   }
 };
 
-export const addPostActionCreator = (newPostText) => ({
+export const addPostActionCreator = newPostText => ({
   type: ADD_POST,
   newPostText
 });
@@ -57,36 +62,33 @@ export const setUserStatus = status => ({
   status
 });
 
-/* export const updateUserStatusAC = status => ({
-  type: UPDATE_USER_STATUS,
-  status
+export const deletePost = postId => ({
+  type: DELETE_POST,
+  postId
 });
- */
+
 // thunk
 // getUserProfile
 export const setUserProfileThunk = userId => {
-  return dispatch => {
-    usersAPI.getUserProfile(userId).then(data => {
-      dispatch(setUserProfile(data));
-    });
+  return async dispatch => {
+    let response = await usersAPI.getUserProfile(userId);
+    dispatch(setUserProfile(response));
   };
 };
 
 export const getUserStatus = userId => {
-  return dispatch => {
-    profileAPI.getUserStatus(userId).then(data => {
-      dispatch(setUserStatus(data));
-    });
+  return async dispatch => {
+    let response = await profileAPI.getUserStatus(userId);
+    dispatch(setUserStatus(response));
   };
 };
 
 export const updateUserStatus = status => {
-  return dispatch => {
-    profileAPI.updateUserStatus(status).then(data => {
-      if (data.resultCode === 0) {
-        dispatch(setUserStatus(status));
-      }
-    });
+  return async dispatch => {
+    let response = await profileAPI.updateUserStatus(status);
+    if (response.resultCode === 0) {
+      dispatch(setUserStatus(status));
+    }
   };
 };
 

@@ -10,12 +10,12 @@ import style from "../common/FormControls/FormControls.module.scss";
 
 const maxLength30 = maxLengthCreator(30);
 
-const LoginForm = props => {
+const LoginForm = ({handleSubmit, error}) => {
   return (
-    <form onSubmit={props.handleSubmit}>
-      {props.error && (
+    <form onSubmit={handleSubmit}>
+      {error && (
         <div className={style.formControl__error}>
-          <span>{props.error}</span>
+          <span>{error}</span>
         </div>
       )}
       <div>

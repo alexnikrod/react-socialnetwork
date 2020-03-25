@@ -1,4 +1,5 @@
 import { usersAPI } from "../api/api";
+import { updateObjectInArray } from "../utils/object-helper";
 
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
@@ -22,21 +23,21 @@ const usersReducer = (state = initialState, action) => {
     case FOLLOW:
       return {
         ...state,
-        users: state.users.map(u => {
+        /* users: state.users.map(u => {
           if (u.id === action.userId) {
             return { ...u, followed: true };
           }
           return u;
+        }) */
+        users: updateObjectInArray(state.users, action.userId, "id", {
+          followed: true
         })
       };
     case UNFOLLOW:
       return {
         ...state,
-        users: state.users.map(u => {
-          if (u.id === action.userId) {
-            return { ...u, followed: false };
-          }
-          return u;
+        users: updateObjectInArray(state.users, action.userId, "id", {
+          followed: false
         })
       };
     case SET_USERS:
@@ -109,39 +110,48 @@ export const toggleIsDisabled = (isDisabled, userId) => ({
 });
 // thunk
 export const getUsers = (currentPage, pageSize) => {
-  return dispatch => {
+  return async dispatch => {
     dispatch(toggleIsFetching(true));
     dispatch(setCurrentPage(currentPage));
-    usersAPI.getUsers(currentPage, pageSize).then(data => {
-      dispatch(toggleIsFetching(false));
-      dispatch(setUsers(data.items));
-      dispatch(setTotalUsersCount(data.totalCount));
-    });
+
+    let response = await usersAPI.getUsers(currentPage, pageSize);
+
+    dispatch(toggleIsFetching(false));
+    dispatch(setUsers(response.items));
+    dispatch(setTotalUsersCount(response.totalCount));
   };
 };
 
-export const unfollowThunk = userId => {
-  return dispatch => {
-    dispatch(toggleIsDisabled(true, userId));
-    usersAPI.unfollowUsers(userId).then(data => {
-      if (data.resultCode === 0) {
-        dispatch(unfollow(userId));
-      }
-      dispatch(toggleIsDisabled(false, userId));
-    });
-  };
+const followUnfollowFlow = async (
+  dispatch,
+  userId,
+  apiMethod,
+  actionCreator
+) => {
+  dispatch(toggleIsDisabled(true, userId));
+  let response = await apiMethod(userId);
+  if (response.resultCode === 0) {
+    dispatch(actionCreator(userId));
+  }
+  dispatch(toggleIsDisabled(false, userId));
 };
 
-export const followThunk = userId => {
-  return dispatch => {
-    dispatch(toggleIsDisabled(true, userId));
-    usersAPI.followUsers(userId).then(data => {
-      if (data.resultCode === 0) {
-        dispatch(follow(userId));
-      }
-      dispatch(toggleIsDisabled(false, userId));
-    });
-  };
+export const unfollowThunk = userId => async dispatch => {
+  followUnfollowFlow(
+    dispatch,
+    userId,
+    usersAPI.unfollowUsers.bind(usersAPI),
+    unfollow
+  );
+};
+
+export const followThunk = userId => async dispatch => {
+  followUnfollowFlow(
+    dispatch,
+    userId,
+    usersAPI.followUsers.bind(usersAPI),
+    follow
+  );
 };
 
 export default usersReducer;
