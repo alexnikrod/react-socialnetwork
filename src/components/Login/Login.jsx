@@ -1,5 +1,5 @@
 import React from "react";
-import { Field, reduxForm } from "redux-form";
+import { reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
@@ -51,7 +51,6 @@ class LoginContainer extends React.Component {
 
 const Login = props => {
   const onSubmit = formData => {
-    // console.log(formData);
     props.loginAuthThunk(
       formData.email,
       formData.password,
