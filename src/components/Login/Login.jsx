@@ -4,13 +4,13 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
 import { loginAuthThunk } from "../../redux/auth-reducer";
-import { Input } from "../common/FormControls/FormControls";
+import { Input, createField } from "../common/FormControls/FormControls";
 import { required, maxLengthCreator } from "../../utils/validators/validators";
 import style from "../common/FormControls/FormControls.module.scss";
 
 const maxLength30 = maxLengthCreator(30);
 
-const LoginForm = ({handleSubmit, error}) => {
+const LoginForm = ({ handleSubmit, error }) => {
   return (
     <form onSubmit={handleSubmit}>
       {error && (
@@ -18,28 +18,20 @@ const LoginForm = ({handleSubmit, error}) => {
           <span>{error}</span>
         </div>
       )}
-      <div>
-        <Field
-          name={"email"}
-          placeholder={"email"}
-          component={Input}
-          type="email"
-          validate={[required, maxLength30]}
-        />
-      </div>
-      <div>
-        <Field
-          name={"password"}
-          placeholder={"Password"}
-          component={Input}
-          type="password"
-          validate={[required, maxLength30]}
-        />
-      </div>
-      <div>
-        <Field name={"rememberMe"} type={"checkbox"} component={Input} />{" "}
-        remember me
-      </div>
+      {createField("email", "Email", Input, [required, maxLength30], {
+        type: "email"
+      })}
+      {createField("password", "Password", Input, [required, maxLength30], {
+        type: "password"
+      })}
+      {createField(
+        "rememberMe",
+        null,
+        Input,
+        null,
+        { type: "checkbox" },
+        "remember me"
+      )}
       <div>
         <button>Login</button>
       </div>

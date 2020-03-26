@@ -1,87 +1,37 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 
-import styles from "./Users.module.scss";
-import userPhoto from "../../assets/images/bill.jpg";
+import Paginator from "../common/Paginator/Paginator";
+import User from "./User";
 
-let Users = props => {
-  let pagesCount = Math.ceil(props.totalUsersCount / props.pageSize);
-
-  let pages = [];
-
-  for (let i = 1; i <= pagesCount; i++) {
-    pages.push(i);
-  }
-
-  let pagesToDraw = pages.filter(
-    page => page < props.currentPage + 5 && page > props.currentPage - 5
-  );
-
-  /* if (props.isAuth === false) {
-    return <Redirect to={"/login"} />;
-  } */
-
+let Users = ({
+  currentPage,
+  totalUsersCount,
+  pageSize,
+  onPageChanged,
+  users,
+  isDisabled,
+  unfollowThunk,
+  followThunk
+}) => {
   return (
     <div>
+      <Paginator
+        currentPage={currentPage}
+        totalUsersCount={totalUsersCount}
+        pageSize={pageSize}
+        onPageChanged={onPageChanged}
+      />
       <div>
-        {pagesToDraw.map(p => (
-          <span
-            key={p.id}
-            className={props.currentPage === p ? styles.selectedPage : null}
-            onClick={() => {
-              props.onPageChanged(p);
-            }}
-          >
-            {p}
-          </span>
+        {users.map(u => (
+          <User
+            user={u}
+            key={u.id}
+            isDisabled={isDisabled}
+            unfollowThunk={unfollowThunk}
+            followThunk={followThunk}
+          />
         ))}
       </div>
-      {props.users.map(u => (
-        <div key={u.id}>
-          <span>
-            <div>
-              <NavLink to={"/profile/" + u.id}>
-                <img
-                  src={u.photos.small != null ? u.photos.small : userPhoto}
-                  alt="User"
-                  className={styles.usersPhoto}
-                />
-              </NavLink>
-            </div>
-            <div>
-              {u.followed ? (
-                <button
-                  disabled={props.isDisabled.some(id => id === u.id)}
-                  onClick={() => {
-                    props.unfollowThunk(u.id);
-                  }}
-                >
-                  Unfollow
-                </button>
-              ) : (
-                <button
-                  disabled={props.isDisabled.some(id => id === u.id)}
-                  onClick={() => {
-                    props.followThunk(u.id);
-                  }}
-                >
-                  Follow
-                </button>
-              )}
-            </div>
-          </span>
-          <span>
-            <span>
-              <div>{u.name}</div>
-              <div>{u.status}</div>
-            </span>
-            <span>
-              <div>{"u.location.country"}</div>
-              <div>{"u.location.city"}</div>
-            </span>
-          </span>
-        </div>
-      ))}
     </div>
   );
 };

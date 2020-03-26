@@ -6,34 +6,27 @@ import userPhoto from "../../../assets/images/bill.jpg";
 
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
-const ProfileInfo = props => {
-  if (!props.profile) {
+const ProfileInfo = ({profile, status, updateStatus}) => {
+  if (!profile) {
     return <Preloader />;
   }
 
   return (
     <div>
-      {/* <div>
-        <img
-          className="content__img"
-          alt="man"
-          src="https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80"
-        />
-      </div> */}
       <div className={s.descriptionBlock}>
         <img className={s.userPhoto}
           src={
-            props.profile.photos.large != null
-              ? props.profile.photos.large
+            profile.photos.large != null
+              ? profile.photos.large
               : userPhoto
           }
           alt="large"
         />
-        <ProfileStatusWithHooks status={props.status} updateStatus={props.updateStatus} />
+        <ProfileStatusWithHooks status={status} updateStatus={updateStatus} />
       </div>
       <div>Ava+description</div>
-      <div>{props.profile.fullName}</div>
-      <div>{props.profile.status}</div>
+      <div>{profile.fullName}</div>
+      <div>{profile.status}</div>
     </div>
   );
 };
