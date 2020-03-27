@@ -24,7 +24,8 @@ const authReducer = (state = initialState, action) => {
     case LOGIN_USER:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        // rememberMe: true
       };
     default:
       return state;

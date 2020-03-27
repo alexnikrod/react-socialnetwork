@@ -1,5 +1,5 @@
 import React from "react";
-import { reduxForm } from "redux-form";
+import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
@@ -24,14 +24,19 @@ const LoginForm = ({ handleSubmit, error }) => {
       {createField("password", "Password", Input, [required, maxLength30], {
         type: "password"
       })}
-      {createField(
+      {/* {createField(
         "rememberMe",
         null,
         Input,
         null,
         { type: "checkbox" },
         "remember me"
-      )}
+      )} */}
+      <div>
+        <Field name="rememberMe" type="checkbox" component={Input} />
+        remember me
+      </div>
+
       <div>
         <button>Login</button>
       </div>

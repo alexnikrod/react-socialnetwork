@@ -60,7 +60,7 @@ export const authAPI = {
       return response.data;
     });
   },
-  login(email, password, rememberMe = false) {
+  login(email, password, rememberMe) {
     return instance
       .post(`auth/login`, { email, password, rememberMe })
       .then(response => {
