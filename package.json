@@ -5,6 +5,7 @@
   "homepage": "https://alexnikrod.github.io/react-socialnetwork",
   "dependencies": {
     "axios": "^0.19.2",
+    "classnames": "^2.2.6",
     "exact": "^0.8.0",
     "node-sass": "^4.13.1",
     "react": "^16.13.0",

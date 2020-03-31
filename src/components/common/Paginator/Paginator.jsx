@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Paginator.module.scss";
+// import cn from classname library
 
 let Paginator = ({
   totalUsersCount,
@@ -38,7 +39,7 @@ let Paginator = ({
           return (
             <span
               key={p}
-              /* className={(
+              /* className={ cn(
                 {
                   [styles.selectedPage]: currentPage === p
                 },

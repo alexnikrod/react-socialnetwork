@@ -10,7 +10,7 @@ import style from "../common/FormControls/FormControls.module.scss";
 
 const maxLength30 = maxLengthCreator(30);
 
-const LoginForm = ({ handleSubmit, error }) => {
+const LoginForm = ({ handleSubmit, error, captchaUrl }) => {
   return (
     <form onSubmit={handleSubmit}>
       {error && (
@@ -18,6 +18,8 @@ const LoginForm = ({ handleSubmit, error }) => {
           <span>{error}</span>
         </div>
       )}
+      { captchaUrl && <img src={captchaUrl} alt="captcha" />}
+      { captchaUrl && createField("captcha", "Type symbols", Input, [required])}
       {createField("email", "Email", Input, [required, maxLength30], {
         type: "email"
       })}
@@ -59,7 +61,8 @@ const Login = props => {
     props.loginAuthThunk(
       formData.email,
       formData.password,
-      formData.rememberMe
+      formData.rememberMe,
+      formData.captcha,
     );
   };
 
@@ -70,7 +73,7 @@ const Login = props => {
   return (
     <div>
       <h1>LOGIN</h1>
-      <LoginReduxForm onSubmit={onSubmit} />
+      <LoginReduxForm onSubmit={onSubmit} captchaUrl={props.captchaUrl} />
     </div>
   );
 };
@@ -78,6 +81,7 @@ const Login = props => {
 // export default Login;
 
 let mapStateToProps = state => ({
+  captchaUrl: state.auth.captchaUrl,
   isAuth: state.auth.isAuth
 });
 
