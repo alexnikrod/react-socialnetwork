@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, withRouter } from "react-router-dom";
+import { Route, withRouter, Switch, Redirect } from "react-router-dom";
 import { compose } from "redux";
 import { connect } from "react-redux";
 
@@ -36,13 +36,18 @@ class App extends React.Component {
         <HeaderContainer />
         <NavBar />
         <div className="App-content">
-          <Route path="/dialogs" render={withSuspense(DialogsContainer)} />
-          <Route
-            path="/profile/:userId?"
-            render={withSuspense(ProfileContainer)}
-          />
-          <Route path="/users" render={withSuspense(UsersContainer)} />
-          <Route path="/login" render={() => <LoginPage />} />
+          <Switch>
+          {/* <Route exact path="/" render={() => <Redirect to={"/profile"} />} /> */}
+
+            <Route path="/dialogs" render={withSuspense(DialogsContainer)} />
+            <Route
+              path="/profile/:userId?"
+              render={withSuspense(ProfileContainer)}
+            />
+            <Route path="/users" render={withSuspense(UsersContainer)} />
+            <Route path="/login" render={() => <LoginPage />} />
+            <Route path="*" render={() => <div>404 NOT FOUND</div>} />
+          </Switch>
         </div>
       </div>
     );
